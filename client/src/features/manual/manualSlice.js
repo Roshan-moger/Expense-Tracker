@@ -1,11 +1,13 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
+const API = import.meta.env.VITE_API_URL
+
 // Save a new manual transaction
 export const saveManualTransactionAsync = createAsyncThunk(
   'manualTransaction/save',
   async (transactionData) => {
-    const response = await axios.post('http://localhost:5000/api/manualtransactions', transactionData);
+    const response = await axios.post(`${API}/manualtransactions`, transactionData);
     return response.data;
   }
 );
@@ -14,7 +16,7 @@ export const saveManualTransactionAsync = createAsyncThunk(
 export const fetchManualTransactions = createAsyncThunk(
   'manualTransaction/fetchAll',
   async () => {
-    const response = await axios.get('http://localhost:5000/api/manualtransactions');
+    const response = await axios.get(`${API}/manualtransactions`);
     return response.data;
   }
 );
@@ -23,7 +25,7 @@ export const fetchManualTransactions = createAsyncThunk(
 export const updateManualNoteAsync = createAsyncThunk(
   'manualTransaction/updateNote',
   async ({ manualId, note }) => {
-    const response = await axios.put(`http://localhost:5000/api/manualtransactions/${manualId}`, { note });
+    const response = await axios.put(`${API}/manualtransactions/${manualId}`, { note });
     return response.data;
   }
 );
