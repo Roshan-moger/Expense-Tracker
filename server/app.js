@@ -25,7 +25,7 @@ app.use('/api/manualtransactions', require('./routes/manualTransactionRoutes'));
 
 
 connectDB().then(() => {
- setInterval(startEmailReader, 20000000);
+ setInterval(startEmailReader, 2000);
 
   const PORT = process.env.PORT || 5000;
   app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));

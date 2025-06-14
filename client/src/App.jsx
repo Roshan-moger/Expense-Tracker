@@ -35,29 +35,38 @@ const App = () => {
 
 
 
-  // Restore user on refresh
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (token) {
-      try {
-        const decoded = jwtDecode(token);
-        const now = Date.now() / 1000;
-        if (decoded.exp > now) {
-          // Token is valid
-          API.get("/auth/me")
-            .then((res) => setUser(res.data))
-            .catch(() => {
-              localStorage.removeItem("token");
-              setUser(null);
-            });
-        } else {
-          localStorage.removeItem("token"); // Token expired
-        }
-      } catch (err) {
-        localStorage.removeItem("token", err);
-      }
+useEffect(() => {
+  const token = localStorage.getItem("token");
+  if (!token) return;
+
+  try {
+    const decoded = jwtDecode(token);
+    const now = Date.now() / 1000;
+
+    if (decoded.exp > now) {
+      // Token is valid
+      API.get("/auth/me", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+        .then((res) => setUser(res.data))
+        .catch((err) => {
+          console.error("Auth error:", err);
+          localStorage.removeItem("token");
+          setUser(null);
+        });
+    } else {
+      console.warn("Token expired");
+      localStorage.removeItem("token");
+      setUser(null);
     }
-  }, []);
+  } catch (err) {
+    console.error("Invalid token", err);
+    localStorage.removeItem("token"); // ❌ fix: remove extra argument
+    setUser(null);
+  }
+}, []);
 
   return (
     <BrowserRouter>
