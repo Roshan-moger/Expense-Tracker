@@ -1,11 +1,12 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
+const API = import.meta.env.VITE_API_URL
 // Thunk to fetch emails
 export const fetchEmails = createAsyncThunk(
   'emails/fetchEmails',
   async () => {
-    const response = await axios.get('http://localhost:5000/api/emails/subjects');
+    const response = await axios.get(`${API}/emails/subjects`);
     return response.data; // Expecting array of email objects from backend
   }
 );
@@ -14,7 +15,7 @@ export const fetchEmails = createAsyncThunk(
 export const markEmailAsReadAsync = createAsyncThunk(
   'emails/markAsReadAsync',
   async (emailId) => {
-    const response = await axios.put(`http://localhost:5000/api/emails/${emailId}/read`);
+    const response = await axios.put(`${API}/emails/${emailId}/read`);
     return response.data; // Updated email object from backend
   }
 );
@@ -22,7 +23,7 @@ export const markEmailAsReadAsync = createAsyncThunk(
 export const updateEmailNoteAsync = createAsyncThunk(
   'emails/updateNote',
   async ({ emailId, note }) => {
-    const response = await axios.put(`http://localhost:5000/api/emails/${emailId}/note`, { note });
+    const response = await axios.put(`${API}/emails/${emailId}/note`, { note });
     return response.data; // Updated email from backend
   }
 );
