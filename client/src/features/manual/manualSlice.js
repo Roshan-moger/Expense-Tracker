@@ -34,7 +34,7 @@ export const updateManualNoteAsync = createAsyncThunk(
 export const deleteManualTransactionAsync = createAsyncThunk(
   'manualTransaction/delete',
   async (manualId) => {
-    await axios.delete(`http://localhost:5000/api/manualtransactions/${manualId}`);
+    await axios.delete(`${API}/manualtransactions/${manualId}`);
     return manualId;
   }
 );

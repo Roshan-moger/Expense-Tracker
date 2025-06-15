@@ -11,6 +11,12 @@ dotenv.config();
 
 const app = express();
 app.use(cors());
+const allowedOrigins = ['https://expense-tracker-roshan.vercel.app'];
+
+app.use(cors({
+  origin: allowedOrigins,
+  credentials: true, // if using cookies or auth headers
+}));
 app.use(express.json());
 
 // Routes placeholder
