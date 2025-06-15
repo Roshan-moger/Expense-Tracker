@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import { NavLink, Outlet } from 'react-router-dom';
 
 const Dashboard = ({ user, onLogout }) => {
+  const sidebarRef = useRef(null);
+
   const handleLogout = () => {
     localStorage.removeItem('token');
     onLogout();
@@ -11,6 +13,35 @@ const Dashboard = ({ user, onLogout }) => {
   const unreadCount = useSelector((state) =>
     state.emails.data.filter((email) => !email.read).length
   );
+
+  // Toggle sidebar for mobile
+  const toggleSidebar = () => {
+    if (sidebarRef.current) {
+      sidebarRef.current.classList.toggle('-translate-x-full');
+    }
+  };
+
+  // Close sidebar when a link is clicked on mobile
+  const handleLinkClick = () => {
+    if (window.innerWidth < 640 && sidebarRef.current) {
+      sidebarRef.current.classList.add('-translate-x-full');
+    }
+  };
+
+  // Add event listener for toggle button
+  useEffect(() => {
+    const toggleButton = document.querySelector('[data-drawer-toggle="default-sidebar"]');
+    if (toggleButton) {
+      toggleButton.addEventListener('click', toggleSidebar);
+    }
+
+    // Cleanup event listener on component unmount
+    return () => {
+      if (toggleButton) {
+        toggleButton.removeEventListener('click', toggleSidebar);
+      }
+    };
+  }, []);
 
   return (
     <>
@@ -41,6 +72,7 @@ const Dashboard = ({ user, onLogout }) => {
       {/* Sidebar */}
       <aside
         id="default-sidebar"
+        ref={sidebarRef}
         className="fixed top-0 left-0 z-40 w-64 h-screen transition-transform -translate-x-full sm:translate-x-0"
         aria-label="Sidebar"
       >
@@ -65,6 +97,7 @@ const Dashboard = ({ user, onLogout }) => {
                     isActive ? 'bg-white text-black' : 'text-white hover:bg-gray-100 hover:text-black'
                   }`
                 }
+                onClick={handleLinkClick}
               >
                 <svg
                   className="w-5 h-5 transition duration-75 group-hover:text-black"
@@ -88,6 +121,7 @@ const Dashboard = ({ user, onLogout }) => {
                     isActive ? 'bg-white text-black' : 'text-white hover:bg-gray-100 hover:text-black'
                   }`
                 }
+                onClick={handleLinkClick}
               >
                 <svg
                   className="shrink-0 w-5 h-5 transition duration-75 group-hover:text-black"
@@ -96,10 +130,10 @@ const Dashboard = ({ user, onLogout }) => {
                   fill="currentColor"
                   viewBox="0 0 20 20"
                 >
-                  <path d="m17.418 3.623-.018-.008a6.713 6.713 0 0 0-2.4-.569V2h1a1 1 0 1 0 0-2h-2a1 1 0 0 0-1 1v2H9.89A6.977 6.977 0 0 1 12 8v5h-2V8A5 5 0 1 0 0 8v6a1 1 0 0 0 1 1h8v4a1 1 0 0 0 1 1h2a1 1 0 0 0 1-1v-4h6a1 1 0 0 0 1-1V8a5 5 0 0 0-2.582-4.377ZM6 12H4a1 1 0 0 1 0-2h2a1 1 0 0 1 0 2Z" />
+                  <path d="m17.418 3.623-.018-.008a6.713 6.713 0 0 0-2.4-.569V2h1a1 1 0 1 0 0-2h-2a1 1 0 0 0-1 1v2H9.89A6.977 6.977 0 0 1 12 8v5h-2V8A5 5 0 1 0 0 8v6a1 1 0 0 0 1 1h8v4a1 1 0 0 0 1 1h2a1 1 0 0 0 1-1v-4h6a1 1 0 0 0 1-1V8a5 5 0 0 0-2.582-4.377ZM6 12H4a1 1 0 1 1 0-2h2a1 1 0 0 1 0 2Z" />
                 </svg>
                 <span className="flex-1 ms-3 whitespace-nowrap">Inbox</span>
-                <span className="inline-flex items-center justify-center w-3 h-3 p-3 ms-3 text-sm font-medium text-black bg-blue-100 rounded-full group-hover:bg-blue-200">
+                <span className="inline-flex items-center justify-center w-3 h-3 p-3 ms-3 text-sm font-semibold text-black bg-blue-100 rounded-full group-hover:bg-blue-200">
                   {unreadCount}
                 </span>
               </NavLink>
@@ -113,6 +147,7 @@ const Dashboard = ({ user, onLogout }) => {
                     isActive ? 'bg-white text-black' : 'text-white hover:bg-gray-100 hover:text-black'
                   }`
                 }
+                onClick={handleLinkClick}
               >
                 <svg
                   className="shrink-0 w-5 h-5 transition duration-75 group-hover:text-black"
@@ -121,7 +156,7 @@ const Dashboard = ({ user, onLogout }) => {
                   fill="currentColor"
                   viewBox="0 0 18 18"
                 >
-                  <path d="M6.143 0H1.857A1.857 1.857 0 0 0 0 1.857v4.286C0 7.169.831 8 1.857 8h4.286A1.857 1.857 0 0 0 8 6.143V1.857A1.857 1.857 0 0 0 6.143 0Zm10 0h-4.286A1.857 1.857 0 0 0 10 1.857v4.286C10 7.169 10.831 8 11.857 8h4.286A1.857 1.857 0 0 0 18 6.143V1.857A1.857 1.857 0 0 0 16.143 0Zm-10 10H1.857A1.857 1.857 0 0 0 0 11.857v4.286C0 17.169.831 18 1.857 18h4.286A1.857 1.857 0 0 0 8 16.143v-4.286A1.857 1.857 0 0 0 6.143 10Zm10 0h-4.286A1.857 1.857 0 0 0 10 11.857v4.286c0 1.026.831 1.857 1.857 1.857h4.286A1.857 1.857 0 0 0 18 16.143v-4.286A1.857 1.857 0 0 0 16.143 10Z" />
+  <path d="M6.143 0H1.857A1.857 1.857 0 0 0 0 1.857v4.286C0 7.169.831 8 1.857 8h4.286A1.857 1.857 0 0 0 8 6.143V1.857A1.857 1.857 0 0 0 6.143 0ZM16.143 0h-4.286A1.857 1.857 0 0 0 10 1.857v4.286C10 7.169 10.831 8 11.857 8h4.286A1.857 1.857 0 0 0 18 6.143V1.857A1.857 1.857 0 0 0 16.143 0ZM6.143 10H1.857A1.857 1.857 0 0 0 0 11.857v4.286C0 17.169.831 18 1.857 18h4.286A1.857 1.857 0 0 0 8 16.143v-4.286A1.857 1.857 0 0 0 6.143 10ZM16.143 10h-4.286A1.857 1.857 0 0 0 10 11.857v4.286C10 17.169 10.831 18 11.857 18h4.286A1.857 1.857 0 0 0 18 16.143v-4.286A1.857 1.857 0 0 0 16.143 10Z" />
                 </svg>
                 <span className="flex-1 ms-3 whitespace-nowrap">Add Expense</span>
               </NavLink>
@@ -135,6 +170,7 @@ const Dashboard = ({ user, onLogout }) => {
                     isActive ? 'bg-white text-black' : 'text-white hover:bg-gray-100 hover:text-black'
                   }`
                 }
+                onClick={handleLinkClick}
               >
                 <svg
                   className="shrink-0 w-5 h-5 transition duration-75 group-hover:text-black"
@@ -148,7 +184,8 @@ const Dashboard = ({ user, onLogout }) => {
                 <span className="flex-1 ms-3 whitespace-nowrap">Reports</span>
               </NavLink>
             </li>
- <li>
+
+            <li>
               <NavLink
                 to="/dashboard/transactions"
                 className={({ isActive }) =>
@@ -156,20 +193,21 @@ const Dashboard = ({ user, onLogout }) => {
                     isActive ? 'bg-white text-black' : 'text-white hover:bg-gray-100 hover:text-black'
                   }`
                 }
+                onClick={handleLinkClick}
               >
-               <svg
-  className="shrink-0 w-5 h-5 transition duration-75 group-hover:text-black"
-  xmlns="http://www.w3.org/2000/svg"
-  fill="currentColor"
-  viewBox="0 0 20 20"
-  aria-hidden="true"
->
-  <path d="M3 10a1 1 0 0 1 1-1h12.586l-2.293-2.293a1 1 0 0 1 1.414-1.414l4 4a1 1 0 0 1 0 1.414l-4 4a1 1 0 1 1-1.414-1.414L16.586 11H4a1 1 0 0 1-1-1Z" />
-</svg>
-
+                <svg
+                  className="shrink-0 w-5 h-5 transition duration-75 group-hover:text-black"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                  aria-hidden="true"
+                >
+                  <path d="M3 10a1 1 0 0 1 1-1h12.586l-2.293-2.293a1 1 0 0 1 1.414-1.414l4 4a1 1 0 0 1 0 1.414l-4 4a1 1 0 0 1-1.414-1.414L16.586 11H4a1 1 0 0 1-1-1Z" />
+                </svg>
                 <span className="flex-1 ms-3 whitespace-nowrap">All Transactions</span>
               </NavLink>
             </li>
+
             <li>
               <NavLink
                 to="/dashboard/products"
@@ -178,6 +216,7 @@ const Dashboard = ({ user, onLogout }) => {
                     isActive ? 'bg-white text-black' : 'text-white hover:bg-gray-100 hover:text-black'
                   }`
                 }
+                onClick={handleLinkClick}
               >
                 <svg
                   className="shrink-0 w-5 h-5 transition duration-75 group-hover:text-black"
@@ -186,7 +225,7 @@ const Dashboard = ({ user, onLogout }) => {
                   fill="currentColor"
                   viewBox="0 0 18 20"
                 >
-                  <path d="M17 5.923A1 1 0 0 0 16 5h-3V4a4 4 0 1 0-8 0v1H2a1 1 0 0 0-1 .923L.086 17.846A2 2 0 0 0 2.08 20h13.84a2 2 0 0 0 1.994-2.153L17 5.923ZM7 9a1 1 0 0 1-2 0V7h2v2Zm0-5a2 2 0 1 1 4 0v1H7V4Zm6 5a1 1 0 1 1-2 0V7h2v2Z" />
+  <path d="M17 5.92A1 1 0 0 0 16 5h-3V4a4 4 0 1 0-8 0v1H2a1 1 0 0 0-1 .92L.08 17.85A2 2 0 0 0 2.08 20h13.84a2 2 0 0 0 1.99-2.15L17 5.92zM7 9a1 1 0 1 1-2 0V7h2v2z" />
                 </svg>
                 <span className="flex-1 ms-3 whitespace-nowrap">Budget</span>
               </NavLink>
@@ -198,7 +237,10 @@ const Dashboard = ({ user, onLogout }) => {
             className={() =>
               `flex items-center p-5 group rounded-sm text-black bg-white hover:bg-gray-100 hover:text-black`
             }
-            onClick={handleLogout}
+            onClick={() => {
+              handleLinkClick();
+              handleLogout();
+            }}
           >
             <svg
               className="shrink-0 w-5 h-5 transition duration-75 group-hover:text-black"
@@ -207,13 +249,14 @@ const Dashboard = ({ user, onLogout }) => {
               fill="none"
               viewBox="0 0 18 16"
             >
-              <path
-                stroke="currentColor"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M1 8h11m0 0L8 4m4 4-4 4m4-11h3a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2h-3"
-              />
+           <path
+  stroke="currentColor"
+  strokeLinecap="round"
+  strokeLinejoin="round"
+  strokeWidth="2"
+  d="M1 8h11m0 0L8 4m4 4-4 4M8 1h3a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2h-2"
+/>
+
             </svg>
             <span className="flex-1 ms-3 whitespace-nowrap">Sign Out</span>
           </NavLink>
