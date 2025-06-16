@@ -73,11 +73,11 @@ const Dashboard = ({ user, onLogout }) => {
       <aside
         id="default-sidebar"
         ref={sidebarRef}
-        className="fixed top-0 left-0 z-40 w-64 h-screen transition-transform -translate-x-full sm:translate-x-0"
+        className="fixed top-0 left-0 z-40 w-64 h-screen  bg-[#8356D6] transition-transform -translate-x-full sm:translate-x-0"
         aria-label="Sidebar"
       >
-        <div className="h-full px-3 py-4 overflow-y-auto bg-[#8356D6] flex flex-col">
-          <ul className="space-y-2 mt-[10%] font-medium flex-grow">
+        <div className="h-screen px-3 py-4 overflow-y-auto  flex flex-col">
+          <ul className="space-y-2 mt-[25px] font-medium flex-grow">
             <li>
               <div className="flex justify-center p-2 text-gray-900 rounded-lg group text-center">
                 <div className="flex items-center">
