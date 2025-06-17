@@ -174,7 +174,7 @@ const AllTransactions = () => {
     .reduce((sum, txn) => sum + txn.amount, 0)
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-gray-100 p-4 sm:p-6 lg:p-8 overflow-x-auto">
+    <div className="min-h-screen  p-4 sm:p-6 lg:p-8 overflow-x-auto">
       <div className="relative z-10 max-w-5xl mx-auto">
         <h1 className="text-2xl sm:text-3xl font-extrabold text-gray-900 mb-6 text-center tracking-tight">
           All Transactions
