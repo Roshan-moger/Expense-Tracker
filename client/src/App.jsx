@@ -11,8 +11,8 @@ import { useDispatch } from "react-redux";
 import { fetchEmails } from "./features/Email/EmailSlice"
 import AddExpenses from "./Components/AddExpenses";
 import { fetchManualTransactions } from "./features/manual/manualSlice";
-import AllTransactions from "./Components/AllTransactions";
 import Reports from "./Components/Reports";
+import AllTransactions from "./Transactions/AllTransactions";
 
 
 const App = () => {
