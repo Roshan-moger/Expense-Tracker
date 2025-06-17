@@ -84,7 +84,7 @@ const allTransactions = [...formattedEmails, ...formattedManual].sort((a, b) => 
 // console.log('All Transactions (After Sort):', allTransactions);
 
   return (
-    <div className="relative p-6 rounded-xl  w-full mt-6">
+    <div className="relative rounded-xl  w-full mt-6">
       <h3 className="text-2xl font-semibold text-gray-800 mb-4">Recent Transactions</h3>
 
       <div className="grid grid-cols-4 gap-4 px-4 py-4  rounded-md text-sm font-medium text-white mb-2 text-center bg-[#8356D6]">

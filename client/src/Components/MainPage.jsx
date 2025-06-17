@@ -77,7 +77,7 @@ const MainPage = ({ user }) => {
   }, [months, allEmails, addedMonths, dispatch]);
 
   return (
-    <div className="p-4 space-y-6">
+    <div className="p-3 space-y-6">
       {/* Row 1: Select + Username */}
       <div className="flex justify-between items-center">
         <div className="text-right font-medium text-gray-700">
