@@ -207,7 +207,7 @@ const Dashboard = ({ user, onLogout }) => {
                 <span className="flex-1 ms-3 whitespace-nowrap">All Transactions</span>
               </NavLink>
             </li>
-
+{/* 
             <li>
               <NavLink
                 to="/dashboard/products"
@@ -229,7 +229,7 @@ const Dashboard = ({ user, onLogout }) => {
                 </svg>
                 <span className="flex-1 ms-3 whitespace-nowrap">Budget</span>
               </NavLink>
-            </li>
+            </li> */}
           </ul>
 
           <NavLink
